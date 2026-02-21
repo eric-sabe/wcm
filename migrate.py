@@ -294,7 +294,7 @@ def migrate_workspace(source_path, dest_path, no_copy, progress, overall_task):
     }
 
 def main():
-    parser = argparse.ArgumentParser(description="Migrate VS Code and Cursor workspaces while preserving chat history.")
+    parser = argparse.ArgumentParser(description="Workspace Chat Migrator: Migrate VS Code and Cursor workspaces while preserving chat history.")
     parser.add_argument("--source", required=True, help="Source workspace or root folder path")
     parser.add_argument("--dest", required=True, help="Destination workspace or root folder path")
     parser.add_argument("--no-copy", action="store_true", help="Skip copying the actual project folder")
@@ -305,7 +305,7 @@ def main():
     source_root = os.path.abspath(args.source)
     dest_root = os.path.abspath(args.dest)
     
-    console.print(Panel.fit("[bold blue]VS Code & Cursor Workspace Migrator[/bold blue]", border_style="blue"))
+    console.print(Panel.fit("[bold blue]Workspace Chat Migrator[/bold blue]", border_style="blue"))
     
     workspaces_to_migrate = []
     

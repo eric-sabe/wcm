@@ -1,4 +1,4 @@
-# VS Code & Cursor Workspace Mover
+# Workspace Chat Migrator
 
 A Python script to migrate (copy) VS Code and Cursor workspace folders from a source path to a new destination while preserving **ALL** agent chat history, workspace state, and settings.
 
