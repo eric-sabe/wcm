@@ -42,6 +42,7 @@ run.bat --source C:\path\to\source\folder --dest C:\path\to\new\folder
 - `--dest`: The absolute or relative path to the new workspace folder (or root folder if using `--batch`).
 - `--batch`: Treat the source and destination paths as root directories containing multiple workspaces. The script will iterate through all subdirectories in the source and migrate them to the destination.
 - `--no-copy`: Skip copying the actual project files. Use this if you have already moved or copied the files yourself and just want to migrate the chat history and workspace state.
+- `--ignore`: A space-separated list of folder names to ignore during the copy process. Defaults to `node_modules .venv __pycache__`.
 
 ### Example
 

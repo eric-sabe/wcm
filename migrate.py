@@ -207,7 +207,7 @@ def migrate_editor(editor_name, storage_base, source_path, dest_path, source_uri
     progress.console.print(f"[success]  ✔ {editor_name} migration complete for {os.path.basename(source_path)}[/success]")
     return True
 
-def migrate_workspace(source_path, dest_path, no_copy, progress, overall_task):
+def migrate_workspace(source_path, dest_path, no_copy, ignore_patterns, progress, overall_task):
     workspace_name = os.path.basename(source_path)
     task = progress.add_task(f"[cyan]Processing {workspace_name}...", total=None)
     
@@ -238,7 +238,8 @@ def migrate_workspace(source_path, dest_path, no_copy, progress, overall_task):
             try:
                 # symlinks=True is critical to prevent infinite loops and massive copies 
                 # in projects with symlinked dependencies (like pnpm/yarn node_modules)
-                shutil.copytree(source_path, dest_path, symlinks=True)
+                ignore_func = shutil.ignore_patterns(*ignore_patterns) if ignore_patterns else None
+                shutil.copytree(source_path, dest_path, symlinks=True, ignore=ignore_func)
                 files_status = "[green]✅ Copied[/green]"
             except Exception as e:
                 progress.console.print(f"[error]  ✖ Failed to copy {workspace_name}: {e}[/error]")
@@ -301,6 +302,7 @@ def main():
     parser.add_argument("--dest", required=True, help="Destination workspace or root folder path")
     parser.add_argument("--no-copy", action="store_true", help="Skip copying the actual project folder")
     parser.add_argument("--batch", action="store_true", help="Treat source and dest as root folders containing multiple workspaces")
+    parser.add_argument("--ignore", nargs="+", default=["node_modules", ".venv", "__pycache__"], help="Folders to ignore during copy (default: node_modules .venv __pycache__)")
     
     args = parser.parse_args()
     
@@ -341,7 +343,7 @@ def main():
         overall_task = progress.add_task("[bold green]Overall Progress...", total=len(workspaces_to_migrate))
         
         for src, dst in workspaces_to_migrate:
-            res = migrate_workspace(src, dst, args.no_copy, progress, overall_task)
+            res = migrate_workspace(src, dst, args.no_copy, args.ignore, progress, overall_task)
             results.append(res)
             progress.advance(overall_task)
             
