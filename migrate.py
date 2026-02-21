@@ -236,7 +236,9 @@ def migrate_workspace(source_path, dest_path, no_copy, progress, overall_task):
         else:
             progress.update(task, description=f"[cyan]Copying files for {workspace_name}...")
             try:
-                shutil.copytree(source_path, dest_path)
+                # symlinks=True is critical to prevent infinite loops and massive copies 
+                # in projects with symlinked dependencies (like pnpm/yarn node_modules)
+                shutil.copytree(source_path, dest_path, symlinks=True)
                 files_status = "[green]✅ Copied[/green]"
             except Exception as e:
                 progress.console.print(f"[error]  ✖ Failed to copy {workspace_name}: {e}[/error]")
