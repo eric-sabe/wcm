@@ -69,6 +69,10 @@ run.bat --source C:\path\to\source\folder --dest C:\path\to\new\folder
 - Visual Studio Code
 - Cursor
 
+## Credits
+
+This tool was written by **Gemini 3.1 Pro (Preview)** via GitHub Copilot.
+
 ## Notes
 
 - **Close your editors**: It is highly recommended to close VS Code and Cursor before running this script to ensure the SQLite databases are not locked.
